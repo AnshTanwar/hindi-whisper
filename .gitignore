@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+outputs/
+whisper-hindi-run/
+*.pt
+*.bin
+.cache/
+hf_cache/
+wandb/
+.ipynb_checkpoints/
+build_notebook.py

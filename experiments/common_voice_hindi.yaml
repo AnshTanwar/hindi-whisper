@@ -1,0 +1,25 @@
+# Gated. Set HF_TOKEN before running.
+# mozilla-foundation/common_voice_11_0, Hindi split.
+run_name: common-voice-hindi
+dataset: common_voice
+model_name: openai/whisper-small
+language: hindi
+max_train: 2000
+max_eval: 200
+lora_steps: 800
+distill_steps: 800
+lora_batch: 4
+distill_batch: 2
+grad_accum: 4
+learning_rate: 0.0001
+lora_r: 32
+lora_alpha: 64
+lora_dropout: 0.05
+kl_weight: 0.8
+temperature: 2.0
+seed: 7
+output_dir: outputs
+eval_n: 80
+stream_clips: 6
+stream_chunk_s: 1.0
+warmup_steps: 50

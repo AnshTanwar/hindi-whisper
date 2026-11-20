@@ -1,0 +1,25 @@
+# First Kaggle T4 session. Short on purpose so the run finishes.
+# FLEURS Hindi is public read speech (CC-BY-4.0), not 8 kHz telephony.
+run_name: fleurs-small
+dataset: fleurs
+model_name: openai/whisper-small
+language: hindi
+max_train: 600
+max_eval: 80
+lora_steps: 150
+distill_steps: 150
+lora_batch: 4
+distill_batch: 2
+grad_accum: 4
+learning_rate: 0.0001
+lora_r: 32
+lora_alpha: 64
+lora_dropout: 0.05
+kl_weight: 0.8
+temperature: 2.0
+seed: 7
+output_dir: outputs
+eval_n: 40
+stream_clips: 4
+stream_chunk_s: 1.0
+warmup_steps: 20
