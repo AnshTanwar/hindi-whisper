@@ -12,14 +12,17 @@ import time
 import numpy as np
 
 from hindi_whisper.agreement import longest_common_prefix
+from hindi_whisper.model import ensure_generation
 
 
 def local_agreement_stream(model, processor, audio, language: str, sr: int = 16000, chunk_s: float = 1.0):
     """Commit a word prefix only when two consecutive chunk decodes agree."""
     import torch
 
-    device = next(model.parameters()).device
+    param = next(model.parameters())
+    device = param.device
     model.eval()
+    ensure_generation(model, language)
     audio = np.asarray(audio, dtype="float32")
     committed: list[str] = []
     previous: list[str] = []
@@ -30,7 +33,9 @@ def local_agreement_stream(model, processor, audio, language: str, sr: int = 160
     end = hop
     while True:
         buf = audio[max(0, end - max_samples) : min(end, len(audio))]
-        feats = processor.feature_extractor(buf, sampling_rate=sr, return_tensors="pt").input_features.to(device)
+        feats = processor.feature_extractor(buf, sampling_rate=sr, return_tensors="pt").input_features.to(
+            device=device, dtype=param.dtype
+        )
         with torch.no_grad():
             ids = model.generate(feats, language=language, task="transcribe", max_new_tokens=128)
         words = processor.batch_decode(ids, skip_special_tokens=True)[0].split()
